@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCTS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="page-title">Products List</h2>
+
+<div class="product-container">
+    {% for col in data %}
+    <div class="product-card">
+
+        <img src="{{ url_for('static', filename=col[6]) }}"
+             alt="Product Image"
+             class="product-img">
+
+        <h3>{{ col[2] }}</h3>
+
+        <p class="product-desc">
+            {{ col[3] }}
+        </p>
+
+        <p class="product-price">
+            ₹{{ col[4] }}
+        </p>
+
+        <p class="product-stock">
+            Stock: {{ col[5] }}
+        </p>
+
+        {% if session.get('role') == 'admin' %}
+        <div class="product-actions">
+        <a href="/updateproduct/{{ col[0] }}"
+         class="update-btn">
+         Update ✏️
+        </a>
+
+        <a href="/deleteproduct/{{ col[0] }}"
+       class="delete-btn"
+       onclick="return confirm('Are you sure you want to delete this product?');">
+        Delete 🗑️
+       </a>
+       </div>
+       {% endif %}
+
+        <div class="product-actions">
+            <a href="/addtocart/{{ col[0] }}"
+               class="cart-btn">
+                Add to Cart 🛒
+            </a>
+
+            <a href="/addtowishlist/{{ col[0] }}"
+               class="wishlist-btn">
+                 Wishlist ❤️
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

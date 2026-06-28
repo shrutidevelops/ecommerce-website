@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MESSAGES</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   <h2 class="page-title">Contact Messages</h2>
+
+    <table class="product-table">
+
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+</tr>
+
+{% for col in data %}
+<tr>
+    <td>{{ col[0] }}</td>
+    <td>{{ col[1] }}</td>
+    <td>{{ col[2] }}</td>
+    <td>{{ col[3] }}</td>
+</tr>
+{% endfor %}
+
+</table> 
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

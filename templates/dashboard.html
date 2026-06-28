@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="page-title">Admin Dashboard</h2>
+
+<div class="dashboard">
+
+    <div class="card">
+    <h3>Total Users</h3>
+    <p>{{ users }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Categories</h3>
+    <p>{{ categories }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Products</h3>
+    <p>{{ products }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Orders</h3>
+    <p>{{ orders }}</p>
+</div>
+
+<div class="card">
+    <h3>Messages</h3>
+    <p>{{ messages }}</p>
+</div>
+</div>
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

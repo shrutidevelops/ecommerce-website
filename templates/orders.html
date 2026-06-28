@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MY ORDERS</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="page-title">My Orders</h2>
+
+<table class="product-table">
+
+<tr>
+    <th>Order ID</th>
+    <th>Total Amount</th>
+    <th>Order Date</th>
+    <th>Status</th>
+    <th>Items</th>
+    <th>Payment</th>
+</tr>
+
+{% for col in data %}
+<tr>
+    <td>{{ col[0] }}</td>
+    <td>₹{{ col[1] }}</td>
+    <td>{{ col[2] }}</td>
+    <td>{{ col[3] }}</td>
+    
+
+    <td>
+        <a href="/orderdetails/{{ col[0] }}" class="view-items-btn">
+            View Items
+        </a>
+      
+        {% if col[3] == 'Pending' %}
+       <br><br>
+      <a href="/cancelorder/{{ col[0] }}"
+       class="delete-btn"
+       onclick="return confirm('Cancel this order?');">
+       Cancel Order
+    </a>
+    {% endif %}
+
+
+    </td>
+
+     <td>
+        {{ col[4] }}
+    </td>
+    
+</tr>
+{% endfor %}
+
+</table>
+
+<div class="hero-actions">
+    <a href="/products" class="btn">
+        Continue Shopping
+    </a>
+
+    <a href="/cart" class="btn">
+        Go to Cart
+    </a>
+</div>
+
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

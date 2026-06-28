@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMEPAGE</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div><b>ShruShop</b></div>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/products">Products</a>
+            <a href="/categories">Categories </a>
+            <a href="/cart">Cart</a>
+            <a href="/wishlist">Wishlist</a>
+            <a href="/orders">Orders</a>
+            {% if session.get('user_id') %}
+            <span>👋 {{ session['user_name'] }}</span>
+            <a href="/logout">Logout</a>
+            {% else %}
+            <a href="/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="offer-banner">
+    <div class="offer-text">
+        ✨ Summer Sale is Live! Get up to 50% OFF on selected products 🛍️
+    </div>
+    </div>
+
+
+    <!-- Hero Section -->
+    <div class="hero">
+
+        <!-- Decorations -->
+        <span class="star star1">✦</span>
+        <span class="star star2">✦</span>
+        <span class="star star3">✦</span>
+        <span class="star star4">✦</span>
+
+        <h1>Welcome to ShruShop </h1>
+
+        <p>
+            🛍️ Shop the Latest Products<br>
+            Find quality products at the best prices
+        </p>
+
+        <a class="btn" href="/products">Shop Now</a>
+
+        <form action="/search" method="GET" class="search-form">
+            <input type="text"
+                   name="q"
+                   placeholder="🔍 Search products...">
+
+            <button type="submit">Search</button>
+        </form>
+
+    </div>
+
+
+    <!-- Featured Categories -->
+    <div class="categories">
+
+        <h2>Shop By Category</h2>
+
+        <div class="category-container">
+
+            {% for c in categories %}
+           <a href="/categoryproducts/{{ c[0] }}" class="category-link">
+           <div class="category-card">
+
+           {% if c[2] %}
+            <img src="{{ url_for('static',
+                     filename='images/' ~ c[2]) }}"
+                    alt="{{ c[1] }}">
+           {% endif %}
+
+          <h3>{{ c[1] }}</h3>
+
+         </div>
+         </a>
+          {% endfor %}
+        </div>
+
+    </div>
+
+
+    <!-- Featured Products -->
+    <div class="products">
+
+        <h2>Featured Products</h2>
+
+        <div class="product-container">
+
+            {% for p in products[:4] %}
+            <div class="product-card">
+
+                {% if p[6] %}
+                <img src="{{ url_for('static',
+                             filename=p[6]) }}"
+                     alt="{{ p[2] }}">
+                {% endif %}
+
+                <h3>{{ p[2] }}</h3>
+
+                <p>₹{{ p[4] }}</p>
+
+                <a href="/addcart/{{ p[0] }}" class="btn">
+                    Add to Cart
+                </a>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Why Choose Us -->
+    <div class="features">
+
+        <h2>Why Choose Us?</h2>
+
+        <div class="feature-container">
+
+            <div class="feature-card">
+                🚚
+                <h3>Fast Delivery</h3>
+                <p>Quick and reliable shipping.</p>
+            </div>
+
+            <div class="feature-card">
+                💳
+                <h3>Secure Payments</h3>
+                <p>Safe and secure transactions.</p>
+            </div>
+
+            <div class="feature-card">
+                ⭐
+                <h3>Quality Products</h3>
+                <p>Best products at affordable prices.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+     <!-- Newsletter Section -->
+  <div class="newsletter">
+    <h2>Stay Updated ✨🌸📩</h2>
+
+    <p>
+        Subscribe to our newsletter and get exclusive offers,
+        new arrivals, and exciting discounts.
+    </p>
+
+    <form action="/subscribe" method="POST" class="newsletter-form">
+        <input type="email"
+               name="email"
+               placeholder="📧 Enter your email address..."
+               required>
+
+        <button type="submit">
+            Subscribe
+        </button>
+    </form>
+</div>
+
+<!-- Customer Reviews -->
+<div class="reviews">
+
+    <h2>What Our Customers Say 💖</h2>
+
+    <div class="review-container">
+
+        <div class="review-card">
+
+            <img src="{{ url_for('static', filename='images/user1.webp') }}"
+            class="review-img"
+            alt="Customer">
+
+            ⭐⭐⭐⭐⭐
+            <p>
+                "Amazing products and super fast delivery!
+                I absolutely loved shopping from ShruShop."
+            </p>
+            <h4>- Eraserhead</h4>
+        </div>
+
+        <div class="review-card">
+
+             <img src="{{ url_for('static', filename='images/user2.webp') }}"
+            class="review-img"
+            alt="Customer">
+            ⭐⭐⭐⭐⭐
+            <p>
+                "The quality exceeded my expectations.
+                The website is easy to use too!"
+            </p>
+            <h4>- Hawks</h4>
+        </div>
+
+        <div class="review-card">
+             <img src="{{ url_for('static', filename='images/user3.webp') }}"
+            class="review-img"
+            alt="Customer">
+            ⭐⭐⭐⭐⭐
+            <p>
+                "Beautiful collection and affordable prices.
+                Will definitely shop again."
+            </p>
+            <h4>- Edgeshot</h4>
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Contact Us -->
+    <div class="hero-contact">
+
+        <h2>Contact Us</h2>
+
+        <p>
+            Have questions or suggestions?
+            We'd love to hear from you.
+        </p>
+
+        <p>📧 support@shrushop.com</p>
+        <p>📞 +91 9200348762</p>
+        <p>📍 Patna, Bihar</p>
+
+        <a class="btn" href="/contact">
+            Send Us a Message
+        </a>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 ShruShop. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

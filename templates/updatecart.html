@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE CART</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="update-form">
+    <h2>Update Quantity</h2>
+
+    <form method="POST">
+
+        <input type="number"
+               name="t1"
+               value="{{ data[3] }}"
+               min="1"
+               required>
+
+        <button type="submit">Update Cart</button>
+
+    </form>
+</div>
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

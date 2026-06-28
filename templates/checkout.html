@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="checkout-page">
+
+<div class="checkout-container">
+
+    <h2 class="checkout-title">Checkout 💳</h2>
+
+    <form method="POST" action="/placeorder">
+
+        <h3 class="checkout-subtitle">Select Payment Method</h3>
+
+        <div class="checkout-option">
+            <label>
+                <input type="radio" name="payment" value="Cash on Delivery" required>
+                Cash on Delivery
+            </label>
+        </div>
+
+        <div class="checkout-option">
+            <label>
+                <input type="radio" name="payment" value="UPI">
+                UPI
+            </label>
+        </div>
+
+        <div class="checkout-option">
+            <label>
+                <input type="radio" name="payment" value="Card">
+                Credit/Debit Card
+            </label>
+        </div>
+
+        <button type="submit" class="checkout-btn">
+            Place Order
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

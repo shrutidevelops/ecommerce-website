@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ORDER DETAILS</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="page-title">Order Details</h2>
+
+<div class="product-container">
+
+{% for col in data %}
+<div class="product-card">
+
+    <img src="{{ url_for('static', filename=col[0]) }}"
+         class="product-img">
+
+    <h3>{{ col[1] }}</h3>
+
+    <p class="product-price">
+        Price: ₹{{ col[3] }}
+    </p>
+
+    <p class="product-stock">
+        Quantity: {{ col[2] }}
+    </p>
+
+</div>
+{% endfor %}
+
+</div>
+
+<div class="hero-actions">
+    <a href="/orders" class="btn">
+        Back to Orders
+    </a>
+</div>
+
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

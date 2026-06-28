@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WISHLIST</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="page-title">My Wishlist</h2>
+
+<div class="product-container">
+    {% for col in data %}
+    <div class="product-card">
+
+        <img src="{{ url_for('static', filename=col[3]) }}"
+             alt="Product Image"
+             class="product-img">
+
+        <h3>{{ col[1] }}</h3>
+
+        <p class="product-price">
+            ₹{{ col[2] }}
+        </p>
+
+        <div class="product-actions">
+            <a href="/wishlisttocart/{{ col[0] }}"
+               class="cart-btn">
+               Move to Cart 🛒
+            </a>
+
+            <a href="/deletewishlist/{{ col[0] }}"
+               class="delete-btn"
+               onclick="return confirm('Remove from wishlist?');">
+                Remove 🗑️
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

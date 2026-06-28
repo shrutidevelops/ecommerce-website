@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+     <div class="welcome-board">
+    <h1 class="typing-text">✦ Welcome to ShruShop ✦</h1>
+    <p>Your One-Stop Shopping Destination</p>
+    </div>
+
+    <div class="login-box">
+   <h2 align="center">Login Page</h2>
+
+    <form method="POST" action="/login" align="center">
+        
+        <input type="email" name="t1" placeholder="Enter Email" required>
+        <br><br>
+
+        <input type="password" name="t2" placeholder="Enter Password" required>
+        <br><br>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <p align="center">
+        Don't have an account? <a href="/register">Register here</a>
+    </p>
+ </div>
+ <footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

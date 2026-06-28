@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="product-form">
+
+    <h2>Update Product</h2>
+
+    <form method="POST">
+
+    <input type="text" name="t1" value="{{ data[2] }}" required>
+    <br><br>
+
+    <textarea name="t2">{{ data[3] }}</textarea>
+    <br><br>
+
+    <input type="number" name="t3" value="{{ data[4] }}" required>
+    <br><br>
+
+    <input type="number" name="t4" value="{{ data[5] }}" required>
+    <br><br>
+
+    <input type="text" name="t5" value="{{ data[6] }}">
+    <br><br>
+
+    <button type="submit">Update Product</button>
+
+</form>
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

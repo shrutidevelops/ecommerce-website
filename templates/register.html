@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   
+    <div class="welcome-board">
+        <h1 class="typing-text">Join ShruShop ✨</h1>
+        <p>Create your account and start shopping today! 🌸</p>
+
+    </div>
+    
+    <div class="form-container">
+    <h2 align="center">User Registration</h2>
+
+   <form action="/register" method="post" align="center">
+        <table align="center">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="t1" required></td>
+            </tr>
+
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="t2" required></td>
+            </tr>
+
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="t3" required></td>
+            </tr>
+
+          <tr>
+          <td colspan="2">
+          <input type="submit"
+               value="Register"
+               class="register-btn">
+          </td>
+          </tr>
+        </table>
+        </form>
+</div>
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

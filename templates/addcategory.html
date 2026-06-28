@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD CATEGORY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   <div class="category-form">
+    <h2>Add Category</h2>
+
+    <form method="POST">
+        <input type="text" name="t1" placeholder="Category Name" required>
+        <input type="text" name="t2" placeholder="Image URL">
+        <button type="submit">Save Category</button>
+    </form>
+</div>
+<footer>
+    <p>© 2026 ShruShop. All Rights Reserved.</p>
+</footer>
+</body>
+</html>
