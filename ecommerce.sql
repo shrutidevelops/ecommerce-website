@@ -1,5 +1,3 @@
-create database ecommerce;
-use ecommerce;
 
 create table users
 (
