@@ -1,12 +1,13 @@
 from flask import Flask,render_template,request,redirect,session
 import mysql.connector
+import os
 app=Flask(__name__)
 app.secret_key="shrushop_secret_key"
 db = mysql.connector.connect(
     host="gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com",
     port=4000,
     user="2rcavrbyH5QAjgY.root",
-    password="319Hqto1n0s8XFtq",
+    password=os.environ.get("TIDB_PASSWORD"),
     database="ecommerce",
     ssl_disabled=False
 )
