@@ -1584,4 +1584,11 @@ footer {
         font-size:28px;
     }
 
+    /* Login typing text */
+.typing-text {
+    font-size: 28px;
+    white-space: normal;
+    width: 100%;
+    animation: none;
+}
 }
