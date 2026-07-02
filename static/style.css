@@ -1441,3 +1441,147 @@ footer {
 .checkout-btn:hover {
     background: #8e5e48;
 }
+
+/* ======================================
+   MOBILE RESPONSIVE DESIGN
+====================================== */
+
+@media (max-width: 768px) {
+
+    /* Navbar */
+    .navbar{
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .navbar div{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
+    }
+
+    .navbar a{
+        margin:0;
+    }
+
+    /* Hero */
+    .hero{
+        width:90%;
+        padding:40px 20px;
+        margin:30px auto;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    /* Forms */
+    .login-box,
+    .form-container,
+    .product-form,
+    .category-form,
+    .update-form,
+    .checkout-container{
+        width:90%;
+        margin:30px auto;
+        padding:25px;
+        box-sizing:border-box;
+    }
+
+    /* Inputs */
+    input,
+    textarea,
+    select{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+    /* Search */
+    .search-form{
+        flex-direction:column;
+    }
+
+    .search-form input{
+        width:100%;
+    }
+
+    .search-form button{
+        width:100%;
+    }
+
+    /* Newsletter */
+    .newsletter-form{
+        flex-direction:column;
+    }
+
+    .newsletter-form input{
+        width:100%;
+    }
+
+    .newsletter-form button{
+        width:100%;
+    }
+
+    /* Cards */
+    .product-card,
+    .category-card,
+    .feature-card,
+    .review-card{
+        width:100%;
+        max-width:330px;
+    }
+
+    .product-container,
+    .category-container,
+    .feature-container,
+    .review-container{
+        gap:20px;
+    }
+
+    /* Dashboard */
+    .dashboard{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .card{
+        width:90%;
+        max-width:320px;
+    }
+
+    /* Tables */
+    .product-table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    /* Buttons */
+    .hero-actions{
+        flex-direction:column;
+    }
+
+    .hero-actions .btn{
+        width:100%;
+        max-width:220px;
+    }
+
+    /* Headings */
+    h2,
+    .page-title,
+    .newsletter h2,
+    .reviews h2,
+    .categories h2,
+    .products h2,
+    .features h2{
+        font-size:28px;
+    }
+
+}
