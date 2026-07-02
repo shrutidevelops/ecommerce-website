@@ -1,16 +1,20 @@
-from flask import Flask,render_template,request,redirect,session
+from flask import Flask, render_template, request, redirect, session
 import mysql.connector
 import os
-app=Flask(__name__)
-app.secret_key="shrushop_secret_key"
-db = mysql.connector.connect(
-    host="gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com",
-    port=4000,
-    user="2rcavrbyH5QAjgY.root",
-    password=os.environ.get("TIDB_PASSWORD"),
-    database="ecommerce",
-    ssl_disabled=False
-)
+
+app = Flask(__name__)
+app.secret_key = "shrushop_secret_key"
+
+def get_db():
+    return mysql.connector.connect(
+        host=os.environ.get("DB_HOST"),
+        port=4000,
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        database=os.environ.get("DB_NAME"),
+        ssl_disabled=False,
+        connection_timeout=10
+    )
 
 def admin_required():
 
@@ -24,6 +28,7 @@ def admin_required():
 
 @app.route("/")
 def home():
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("SELECT * FROM categories")
@@ -31,6 +36,9 @@ def home():
 
     cursor.execute("SELECT * FROM products")
     products = cursor.fetchall()
+
+    cursor.close()
+    db.close()
 
     return render_template(
         "index.html",
@@ -47,7 +55,8 @@ def register():
         t1 = request.form["t1"]
         t2 = request.form["t2"]
         t3 = request.form["t3"]
-
+        
+        db = get_db()
         cursor = db.cursor()
 
         cursor.execute(
@@ -57,6 +66,7 @@ def register():
 
         db.commit()
         cursor.close()
+        db.close()
 
         return """
         <script>
@@ -74,7 +84,8 @@ def login():
 
         t1 = request.form["t1"]
         t2 = request.form["t2"]
-
+        
+        db = get_db()
         cursor = db.cursor()
 
         cursor.execute(
@@ -84,6 +95,7 @@ def login():
 
         user = cursor.fetchone()
         cursor.close()
+        db.close()
 
         if user:
 
@@ -138,7 +150,8 @@ def addproduct():
         t2 = request.form["t2"]  
         t3 = request.form["t3"]  
         t5 = request.form["t5"]  
-
+        
+        db = get_db()
         cursor = db.cursor()
 
         cursor.execute("""
@@ -150,6 +163,7 @@ def addproduct():
 
         db.commit()
         cursor.close()
+        db.close()
 
         return redirect('/products')
 
@@ -157,10 +171,13 @@ def addproduct():
 
 @app.route('/products')
 def products():
+
+    db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM products")
     data = cursor.fetchall()
     cursor.close()
+    db.close()
 
     return render_template("products.html", data=data)
 
@@ -172,7 +189,8 @@ def deleteproduct(id):
     
     if not admin_required():
         return redirect('/')
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -182,6 +200,7 @@ def deleteproduct(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return redirect('/products')
 
@@ -193,7 +212,8 @@ def updateproduct(id):
     
     if not admin_required():
         return redirect('/')
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     if request.method == 'POST':
@@ -216,6 +236,8 @@ def updateproduct(id):
 
         db.commit()
         cursor.close()
+        db.close()
+        
 
         return """
         <script>
@@ -231,9 +253,11 @@ def updateproduct(id):
     data = cursor.fetchone()
     if not data:
      cursor.close()
+     db.close()
      return redirect('/products')
 
     cursor.close()
+    db.close()
 
     return render_template("updateproduct.html", data=data)
 
@@ -251,6 +275,8 @@ def addcategory():
 
         t1 = request.form["t1"]
         t2 = request.form["t2"]
+
+        db = get_db()
         cursor = db.cursor()
         cursor.execute(
             "INSERT INTO categories(category_name,image) VALUES(%s,%s)",
@@ -258,6 +284,7 @@ def addcategory():
 
         db.commit()
         cursor.close()
+        db.close()
 
         return """
         <script>
@@ -271,17 +298,19 @@ def addcategory():
 @app.route('/categories')
 def categories():
    
-
+    db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM categories")
     data = cursor.fetchall()
     cursor.close()
+    db.close()
 
     return render_template("categories.html", data=data)
 
 @app.route('/categoryproducts/<int:id>')
 def categoryproducts(id):
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -290,6 +319,7 @@ def categoryproducts(id):
     )
     data = cursor.fetchall()
     cursor.close()
+    db.close()
 
     return render_template('products.html', data=data)
 
@@ -301,7 +331,8 @@ def deletecategory(id):
     
     if not admin_required():
         return redirect('/')
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -311,6 +342,7 @@ def deletecategory(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -327,7 +359,7 @@ def updatecategory(id):
     
     if not admin_required():
         return redirect('/')
-
+    db = get_db()
     cursor = db.cursor()
 
     if request.method == 'POST':
@@ -341,6 +373,7 @@ def updatecategory(id):
 
         db.commit()
         cursor.close()
+        db.close()
 
         return """
         <script>
@@ -357,9 +390,11 @@ def updatecategory(id):
     data = cursor.fetchone()
     if not data:
      cursor.close()
+     db.close()
      return redirect('/categories')
 
     cursor.close()
+    db.close()
 
     return render_template("updatecategory.html", data=data)
 
@@ -370,6 +405,7 @@ def addtocart(id):
         return redirect('/login')
 
     user_id = session['user_id']
+    db = get_db()
     cursor = db.cursor()
 
     # Check product stock
@@ -382,12 +418,14 @@ def addtocart(id):
 
     if not product:
         cursor.close()
+        db.close()
         return redirect('/products')
 
     stock = product[0]
 
     if stock <= 0:
         cursor.close()
+        db.close()
         return """
         <script>
             alert("This product is out of stock!");
@@ -409,6 +447,7 @@ def addtocart(id):
 
         if current_qty >= stock:
             cursor.close()
+            db.close()
             return """
             <script>
                 alert("You cannot add more than the available stock!");
@@ -430,6 +469,7 @@ def addtocart(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -442,7 +482,8 @@ def addtocart(id):
 def cart():
      if 'user_id' not in session:
         return redirect('/login')
-
+     
+     db = get_db()
      cursor = db.cursor()
      user_id = session['user_id']
      cursor.execute("""
@@ -465,6 +506,7 @@ def cart():
         total += row[4]
 
      cursor.close()
+     db.close()
 
      return render_template("cart.html", data=data, total=total)
 
@@ -477,6 +519,7 @@ def deletecart(id):
     
 
     user_id = session['user_id']
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -486,6 +529,7 @@ def deletecart(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -501,6 +545,8 @@ def updatecart(id):
         return redirect('/login')
 
     user_id = session['user_id']
+
+    db = get_db()
     cursor = db.cursor()
 
     if request.method == 'POST':
@@ -514,6 +560,7 @@ def updatecart(id):
 
         db.commit()
         cursor.close()
+        db.close()
 
         return """
         <script>
@@ -531,9 +578,11 @@ def updatecart(id):
 
     if not data:
         cursor.close()
+        db.close()
         return redirect('/cart')
 
     cursor.close()
+    db.close()
 
     return render_template("updatecart.html", data=data)
 
@@ -546,6 +595,7 @@ def placeorder():
     user_id = session['user_id']
     payment = request.form.get('payment')
 
+    db = get_db()
     cursor = db.cursor()
 
     # Calculate total amount
@@ -562,6 +612,8 @@ def placeorder():
     # Check if cart is empty
     if total is None:
         cursor.close()
+        db.close()
+
         return """
         <script>
             alert("Your cart is empty!");
@@ -590,6 +642,7 @@ def placeorder():
 
         if quantity > stock:
             cursor.close()
+            db.close()
             return """
             <script>
                 alert("One or more products do not have enough stock!");
@@ -641,6 +694,7 @@ def placeorder():
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -657,6 +711,8 @@ def orders():
 
 
     user_id = session['user_id']
+
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("""
@@ -671,6 +727,7 @@ def orders():
     data = cursor.fetchall()
 
     cursor.close()
+    db.close()
 
     return render_template("orders.html", data=data)
 
@@ -682,6 +739,7 @@ def orderdetails(id):
 
     user_id = session['user_id']
 
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("""
@@ -701,6 +759,7 @@ def orderdetails(id):
     data = cursor.fetchall()
 
     cursor.close()
+    db.close()
 
     return render_template("orderdetails.html", data=data)
 
@@ -711,7 +770,8 @@ def cancelorder(id):
         return redirect('/login')
 
     user_id = session['user_id']
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("""
@@ -723,6 +783,7 @@ def cancelorder(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -739,6 +800,7 @@ def addtowishlist(id):
 
     user_id = session['user_id']
 
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -748,6 +810,7 @@ def addtowishlist(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -764,6 +827,7 @@ def wishlist():
 
    user_id = session['user_id']
 
+   db = get_db()
    cursor = db.cursor()
 
    cursor.execute("""
@@ -780,6 +844,7 @@ def wishlist():
    data = cursor.fetchall()
 
    cursor.close()
+   db.close()
 
    return render_template("wishlist.html", data=data)
 
@@ -790,7 +855,8 @@ def deletewishlist(id):
         return redirect('/login')
 
     user_id = session['user_id']
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute(
@@ -800,6 +866,7 @@ def deletewishlist(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -815,6 +882,8 @@ def wishlisttocart(id):
         return redirect('/login')
 
     user_id = session['user_id']
+
+    db = get_db()
     cursor = db.cursor()
 
     # Get wishlist item belonging to current user only
@@ -827,6 +896,7 @@ def wishlisttocart(id):
 
     if not data:
         cursor.close()
+        db.close()
         return redirect('/wishlist')
 
     product_id = data[0]
@@ -845,6 +915,7 @@ def wishlisttocart(id):
 
     db.commit()
     cursor.close()
+    db.close()
 
     return redirect('/wishlist')
 
@@ -858,7 +929,8 @@ def contact():
         t1 = request.form["t1"]
         t2 = request.form["t2"]
         t3 = request.form["t3"]
-
+        
+        db = get_db()
         cursor = db.cursor()
 
         cursor.execute(
@@ -868,6 +940,7 @@ def contact():
 
         db.commit()
         cursor.close()
+        db.close()
 
         return """
         <script>
@@ -887,7 +960,8 @@ def messages():
     
     if not admin_required():
         return redirect('/')
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("SELECT * FROM contact_messages")
@@ -895,6 +969,7 @@ def messages():
     data = cursor.fetchall()
 
     cursor.close()
+    db.close()
 
     return render_template("messages.html", data=data)
 
@@ -906,7 +981,8 @@ def dashboard():
     
     if not admin_required():
         return redirect('/')
-
+    
+    db = get_db()
     cursor = db.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM users")
@@ -925,6 +1001,7 @@ def dashboard():
     messages = cursor.fetchone()[0]
 
     cursor.close()
+    db.close()
 
     return render_template(
         "dashboard.html",
@@ -937,7 +1014,8 @@ def dashboard():
 @app.route('/search')
 def search():
     q = request.args.get('q')
-
+    
+    db = get_db() 
     cursor = db.cursor()
 
     cursor.execute(
@@ -947,6 +1025,7 @@ def search():
 
     data = cursor.fetchall()
     cursor.close()
+    db.close()
 
     return render_template('products.html', data=data)
 
@@ -954,6 +1033,8 @@ def search():
 def subscribe():
 
     email = request.form['email']
+
+    db = get_db() 
     cursor = db.cursor()
 
     cursor.execute(
@@ -978,6 +1059,7 @@ def subscribe():
 
     db.commit()
     cursor.close()
+    db.close()
 
     return """
     <script>
@@ -996,4 +1078,6 @@ def checkout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
